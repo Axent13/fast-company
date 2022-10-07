@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Users from "./components/users";
-import SearchStatus from "./components/searchStatus";
 import api from "./api";
 
 function App() {
-    const [users, setUsers] = useState(api.users.fetchAll());
+    const [users, setUsers] = useState();
+    // вот этот про этот useEffect не уверен, использовать при каждом ренедере
+    // или только при первом рендере?
+    // Сейчас я считаю, что в реальной жизни юзеры - это динамическая сущность,
+    // поэтому нужно каждый раз свежие данные запрашивать
+    useEffect(() => {
+        api.users
+            .fetchAll()
+            .then((data) => setUsers(data));
+    });
     const handleDelete = (userId) => {
         setUsers(users.filter((user) => user._id !== userId));
     };
@@ -17,17 +25,17 @@ function App() {
                 return user;
             })
         );
-        console.log(id);
     };
     return (
-        <div>
-            <SearchStatus length={users.length} />
-            <Users
-                onDelete={handleDelete}
-                onToggleBookMark={handleToggleBookMark}
-                users={users}
-            />
-        </div>
+        users && (
+            <div>
+                <Users
+                    onDelete={handleDelete}
+                    onToggleBookMark={handleToggleBookMark}
+                    users={users}
+                />
+            </div>
+        )
     );
 }
 
