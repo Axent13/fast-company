@@ -4,15 +4,12 @@ import api from "./api";
 
 function App() {
     const [users, setUsers] = useState();
-    // вот этот про этот useEffect не уверен, использовать при каждом ренедере
-    // или только при первом рендере?
-    // Сейчас я считаю, что в реальной жизни юзеры - это динамическая сущность,
-    // поэтому нужно каждый раз свежие данные запрашивать
     useEffect(() => {
+        console.log("users обновились");
         api.users
             .fetchAll()
             .then((data) => setUsers(data));
-    });
+    }, []);
     const handleDelete = (userId) => {
         setUsers(users.filter((user) => user._id !== userId));
     };
