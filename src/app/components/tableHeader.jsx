@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 import React from "react";
 import PropTypes from "prop-types";
 
@@ -30,15 +31,17 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                         scope="col"
                     >
                         {columns[column].name}
+                        {selectedSort.path === columns[column].path ? (
+                            selectedSort.order === "asc" ? (
+                                <i className="bi bi-caret-up-fill"></i>
+                            ) : (
+                                <i className="bi bi-caret-down-fill"></i>
+                            )
+                        ) : (
+                            ""
+                        )}
                     </th>
                 ))}
-                {/* <th onClick={() => handleSort("name")} scope="col">Имя</th>
-                <th scope="col">Качества</th>
-                <th onClick={() => handleSort("profession.name")} scope="col">Профессия</th>
-                <th onClick={() => handleSort("completedMeetings")} scope="col">Встретился, раз</th>
-                <th onClick={() => handleSort("rate")} scope="col">Оценка</th>
-                <th onClick={() => handleSort("bookmark")} scope="col">Избранное</th>
-                <th /> */}
             </tr>
         </thead>
     );
