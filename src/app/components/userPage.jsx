@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import api from "../api";
 import QualitiesList from "./qualitiesList";
 import { Link } from "react-router-dom";
 
-const User = ({ match }) => {
-    const userId = match.params.userId;
+const UserPage = ({ userId }) => {
     const [user, setUser] = useState();
-    api.users.getById(userId).then((data) => setUser(data));
+    useEffect(() => {
+        api.users.getById(userId).then((data) => setUser(data));
+    });
+
     if (user) {
         return (
             <>
@@ -32,8 +34,8 @@ const User = ({ match }) => {
     return <h1>Loading</h1>;
 };
 
-User.propTypes = {
-    match: PropTypes.object.isRequired
+UserPage.propTypes = {
+    userId: PropTypes.string.isRequired
 };
 
-export default User;
+export default UserPage;
