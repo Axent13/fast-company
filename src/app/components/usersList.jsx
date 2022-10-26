@@ -7,10 +7,13 @@ import GroupList from "./groupList";
 import SearchStatus from "./searchStatus";
 import UserTable from "./usersTable";
 import _ from "lodash";
+import SearchField from "./searchField";
+
 const UsersList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfession] = useState();
     const [selectedProf, setSelectedProf] = useState();
+    const [writtenUsername, setWrittenUsername] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const pageSize = 8;
 
@@ -18,9 +21,11 @@ const UsersList = () => {
     useEffect(() => {
         api.users.fetchAll().then((data) => setUsers(data));
     }, []);
+
     const handleDelete = (userId) => {
         setUsers(users.filter((user) => user._id !== userId));
     };
+
     const handleToggleBookMark = (id) => {
         const newArray = users.map((user) => {
             if (user._id === id) {
@@ -37,6 +42,7 @@ const UsersList = () => {
 
     useEffect(() => {
         setCurrentPage(1);
+        setWrittenUsername("");
     }, [selectedProf]);
 
     const handleProfessionSelect = (item) => {
@@ -50,14 +56,24 @@ const UsersList = () => {
         setSortBy(item);
     };
 
+    const handleSearchFieldChange = ({ target }) => {
+        setWrittenUsername(target.value);
+    };
+
     if (users) {
-        const filteredUsers = selectedProf
-            ? users.filter(
-                  (user) =>
-                      JSON.stringify(user.profession) ===
-                      JSON.stringify(selectedProf)
-              )
-            : users;
+        let filteredUsers = users;
+
+        if (selectedProf) {
+            filteredUsers = users.filter(
+                (user) =>
+                    JSON.stringify(user.profession) ===
+                    JSON.stringify(selectedProf)
+            );
+        } else if (writtenUsername) {
+            filteredUsers = users.filter((user) =>
+                user.name.toLowerCase().includes(writtenUsername.toLowerCase())
+            );
+        }
 
         const count = filteredUsers.length;
         const sortedUsers = _.orderBy(
@@ -90,6 +106,10 @@ const UsersList = () => {
                 )}
                 <div className="d-flex flex-column">
                     <SearchStatus length={count} />
+                    <SearchField
+                        onChange={handleSearchFieldChange}
+                        value={writtenUsername}
+                    />
                     {count > 0 && (
                         <UserTable
                             users={usersCrop}
