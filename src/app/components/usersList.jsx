@@ -13,7 +13,7 @@ const UsersList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfession] = useState();
     const [selectedProf, setSelectedProf] = useState();
-    const [writtenUsername, setWrittenUsername] = useState();
+    const [writtenUsername, setWrittenUsername] = useState("");
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const pageSize = 8;
 
@@ -84,6 +84,7 @@ const UsersList = () => {
         const usersCrop = paginate(sortedUsers, currentPage, pageSize);
         const clearFilter = () => {
             setSelectedProf();
+            setWrittenUsername("");
         };
 
         return (
