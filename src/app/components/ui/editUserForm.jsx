@@ -5,22 +5,25 @@ import api from "../../api";
 import SelectField from "../common/form/selectField";
 import RadioField from "../common/form/radioField";
 import MultiSelectField from "../common/form/multiSelectField";
-import CheckBoxField from "../common/form/checkBoxField";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
-const EditUserForm = ({ userId }) => {
-    // eslint-disable-next-line no-unused-vars
-    const [user, setUser] = useState();
-    // eslint-disable-next-line no-unused-vars
+const EditUserForm = ({
+    userId,
+    sourceName,
+    sourceEmail,
+    sourceProfession,
+    sourceSex,
+    sourceQualities
+}) => {
     const history = useHistory();
+
     const [data, setData] = useState({
-        email: "",
-        password: "",
-        profession: "",
-        sex: "male",
-        qualities: [],
-        licence: false
+        name: sourceName,
+        email: sourceEmail,
+        profession: sourceProfession,
+        sex: sourceSex,
+        qualities: sourceQualities
     });
     const [qualities, setQualities] = useState([]);
     const [professions, setProfession] = useState([]);
@@ -50,10 +53,6 @@ const EditUserForm = ({ userId }) => {
     };
 
     useEffect(() => {
-        api.users.getById(userId).then((data) => setUser(data));
-    }, []);
-
-    useEffect(() => {
         api.professions.fetchAll().then((data) => {
             const professionsList = Object.keys(data).map((professionName) => ({
                 label: data[professionName].name,
@@ -70,13 +69,20 @@ const EditUserForm = ({ userId }) => {
             setQualities(qualitiesList);
         });
     }, []);
+
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
         }));
+        console.log(data);
     };
     const validatorConfig = {
+        name: {
+            isRequired: {
+                message: "Имя обязательно для заполнения"
+            }
+        },
         email: {
             isRequired: {
                 message: "Электронная почта обязательна для заполнения"
@@ -99,17 +105,6 @@ const EditUserForm = ({ userId }) => {
                 message: "Пароль должен состоять минимум из 8 символов",
                 value: 8
             }
-        },
-        profession: {
-            isRequired: {
-                message: "Обязательно выберите вашу профессию"
-            }
-        },
-        licence: {
-            isRequired: {
-                message:
-                    "Вы не можете использовать наш сервис без подтверждения лицензионного соглашения"
-            }
         }
     };
     useEffect(() => {
@@ -127,15 +122,27 @@ const EditUserForm = ({ userId }) => {
         const isValid = validate();
         if (!isValid) return;
         const { profession, qualities } = data;
-        console.log({
+        console.log("prof from data", profession);
+        console.log("qualities from data", qualities);
+        api.users.update(userId, {
             ...data,
-            profession: getProfessionById(profession),
+            profession: getProfessionById(profession._id),
             qualities: getQualities(qualities)
         });
+        console.log("profession:", getProfessionById(profession));
+        console.log("qualities:", getQualities(qualities));
         history.push(`/users/${userId}`);
     };
+
     return (
         <form onSubmit={handleSubmit}>
+            <TextField
+                label="Имя"
+                name="name"
+                value={data.name}
+                onChange={handleChange}
+                error={errors.name}
+            />
             <TextField
                 label="Электронная почта"
                 name="email"
@@ -143,21 +150,13 @@ const EditUserForm = ({ userId }) => {
                 onChange={handleChange}
                 error={errors.email}
             />
-            <TextField
-                label="Пароль"
-                type="password"
-                name="password"
-                value={data.password}
-                onChange={handleChange}
-                error={errors.password}
-            />
             <SelectField
                 label="Выбери свою профессию"
                 defaultOption="Choose..."
                 options={professions}
                 name="profession"
                 onChange={handleChange}
-                value={data.profession}
+                value={data.profession._id}
                 error={errors.profession}
             />
             <RadioField
@@ -174,18 +173,16 @@ const EditUserForm = ({ userId }) => {
             <MultiSelectField
                 options={qualities}
                 onChange={handleChange}
-                defaultValue={data.qualities}
+                defaultValue={data.qualities.map((qualitie) => {
+                    return {
+                        label: qualitie.name,
+                        value: qualitie._id,
+                        color: qualitie.color
+                    };
+                })}
                 name="qualities"
                 label="Выберите ваши качества"
             />
-            <CheckBoxField
-                value={data.licence}
-                onChange={handleChange}
-                name="licence"
-                error={errors.licence}
-            >
-                Подтвердить <a>лицензионное соглашение</a>
-            </CheckBoxField>
             <button
                 className="btn btn-primary w-100 mx-auto"
                 type="submit"
@@ -198,7 +195,12 @@ const EditUserForm = ({ userId }) => {
 };
 
 EditUserForm.propTypes = {
-    userId: PropTypes.string.isRequired
+    userId: PropTypes.string.isRequired,
+    sourceName: PropTypes.string.isRequired,
+    sourceEmail: PropTypes.string.isRequired,
+    sourceProfession: PropTypes.object.isRequired,
+    sourceSex: PropTypes.string.isRequired,
+    sourceQualities: PropTypes.array.isRequired
 };
 
 export default EditUserForm;
