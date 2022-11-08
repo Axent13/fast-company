@@ -75,7 +75,6 @@ const EditUserForm = ({
             ...prevState,
             [target.name]: target.value
         }));
-        console.log(data);
     };
     const validatorConfig = {
         name: {
@@ -119,18 +118,31 @@ const EditUserForm = ({
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log("Before submiting:", data);
         const isValid = validate();
         if (!isValid) return;
         const { profession, qualities } = data;
-        console.log("prof from data", profession);
-        console.log("qualities from data", qualities);
+
+        const newProfession =
+            typeof profession === "object"
+                ? profession
+                : getProfessionById(profession);
+
+        console.log("Qualities before submit:", qualities);
+        console.log("getQualities():", getQualities(qualities));
+
         api.users.update(userId, {
             ...data,
-            profession: getProfessionById(profession._id),
+            profession: newProfession,
             qualities: getQualities(qualities)
         });
-        console.log("profession:", getProfessionById(profession));
-        console.log("qualities:", getQualities(qualities));
+
+        console.log("Now submiting:", {
+            ...data,
+            profession: newProfession,
+            qualities: getQualities(qualities)
+        });
+
         history.push(`/users/${userId}`);
     };
 
