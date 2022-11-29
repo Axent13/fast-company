@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import api from "../../../api";
+import { toDateAgo } from "../../../utils/toDateAgo";
 
-const Comment = ({ userId, content, createdAt }) => {
-    return (
+const Comment = ({ userId, content, created_at: createdAt }) => {
+    const [user, setUser] = useState();
+
+    useEffect(() => {
+        api.users.getById(userId).then((data) => setUser(data));
+    }, []);
+
+    return user ? (
         <div className="bg-light card-body  mb-3">
             <div className="row">
                 <div className="col">
@@ -22,29 +30,31 @@ const Comment = ({ userId, content, createdAt }) => {
                             <div className="mb-4">
                                 <div className="d-flex justify-content-between align-items-center">
                                     <p className="mb-1 ">
-                                        {userId}
+                                        {user.name}
                                         <span className="small">
-                                            Published Time
+                                            {toDateAgo(createdAt)}
                                         </span>
                                     </p>
                                     <button className="btn btn-sm text-primary d-flex align-items-center">
                                         <i className="bi bi-x-lg"></i>
                                     </button>
                                 </div>
-                                <p className="small mb-0">Comment content</p>
+                                <p className="small mb-0">{content}</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    ) : (
+        <h3>Loading...</h3>
     );
 };
 
 Comment.propTypes = {
     userId: PropTypes.string,
     content: PropTypes.string,
-    createdAt: PropTypes.string
+    created_at: PropTypes.string
 };
 
 export default Comment;
