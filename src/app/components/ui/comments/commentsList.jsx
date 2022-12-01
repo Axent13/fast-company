@@ -1,21 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Comment from "./comment";
 
-const CommentsList = ({ comments }) => {
+const CommentsList = ({ comments, onDelete }) => {
     return (
         <>
-            <div className="card mb-2">
-                <div className="card-body ">add comment</div>
-            </div>
-
-            {comments && (
+            {comments && comments.length > 0 && (
                 <div className="card mb-3">
                     <div className="card-body ">
                         <h2>Comments</h2>
                         <hr />
                         {comments.map((comment) => (
-                            <Comment key={comment._id} {...comment} />
+                            <Comment
+                                key={comment._id}
+                                {...comment}
+                                onDelete={onDelete}
+                            />
                         ))}
                     </div>
                 </div>
@@ -25,7 +25,8 @@ const CommentsList = ({ comments }) => {
 };
 
 CommentsList.propTypes = {
-    comments: PropTypes.arrayOf(PropTypes.object)
+    comments: PropTypes.arrayOf(PropTypes.object),
+    onDelete: PropTypes.func
 };
 
 export default CommentsList;

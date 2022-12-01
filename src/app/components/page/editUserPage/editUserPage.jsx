@@ -90,6 +90,10 @@ const EditUserPage = ({ userId }) => {
             .then(() => history.goBack());
     };
 
+    const handleBackButtonClick = () => {
+        history.goBack();
+    };
+
     const validatorConfig = {
         name: {
             isRequired: {
@@ -122,6 +126,10 @@ const EditUserPage = ({ userId }) => {
 
     return loader ? (
         <div className="container mt-5">
+            <button className="btn btn-primary" onClick={handleBackButtonClick}>
+                <i className="bi bi-caret-left-fill"></i>
+                Назад
+            </button>
             <div className="row">
                 <div className="col-md-6 offset-md-3 shadow p-4">
                     <form onSubmit={handleSubmit}>

@@ -3,12 +3,16 @@ import PropTypes from "prop-types";
 import api from "../../../api";
 import { toDateAgo } from "../../../utils/toDateAgo";
 
-const Comment = ({ userId, content, created_at: createdAt }) => {
+const Comment = ({ _id, userId, content, created_at: createdAt, onDelete }) => {
     const [user, setUser] = useState();
 
     useEffect(() => {
         api.users.getById(userId).then((data) => setUser(data));
     }, []);
+
+    const handleDeleteButtonClick = () => {
+        onDelete(_id);
+    };
 
     return user ? (
         <div className="bg-light card-body  mb-3">
@@ -32,10 +36,14 @@ const Comment = ({ userId, content, created_at: createdAt }) => {
                                     <p className="mb-1 ">
                                         {user.name}
                                         <span className="small">
+                                            {" "}
                                             {toDateAgo(createdAt)}
                                         </span>
                                     </p>
-                                    <button className="btn btn-sm text-primary d-flex align-items-center">
+                                    <button
+                                        className="btn btn-sm text-primary d-flex align-items-center"
+                                        onClick={handleDeleteButtonClick}
+                                    >
                                         <i className="bi bi-x-lg"></i>
                                     </button>
                                 </div>
@@ -47,14 +55,16 @@ const Comment = ({ userId, content, created_at: createdAt }) => {
             </div>
         </div>
     ) : (
-        <h3>Loading...</h3>
+        <h5>Loading...</h5>
     );
 };
 
 Comment.propTypes = {
+    _id: PropTypes.string,
     userId: PropTypes.string,
     content: PropTypes.string,
-    created_at: PropTypes.string
+    created_at: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    onDelete: PropTypes.func
 };
 
 export default Comment;

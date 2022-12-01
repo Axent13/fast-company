@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import api from "../../../api";
-import Qualities from "../../ui/qualities";
 import { Link, useHistory } from "react-router-dom";
 import UserCard from "../../ui/userCard";
 import QuailitiesCard from "../../ui/qualitiesCard";
 import MeetingsCard from "../../ui/meetingsCard";
 import Comments from "../../ui/comments/";
+import NewCommentForm from "../../ui/newCommentForm";
+import _ from "lodash";
 
 const UserPage = ({ userId }) => {
     const history = useHistory();
@@ -23,9 +24,24 @@ const UserPage = ({ userId }) => {
             .then((comments) => setComments(comments));
     }, []);
 
+    const handleSubmit = (data) => {
+        console.log("data to add", { ...data, pageId: userId });
+        api.comments
+            .add({ ...data, pageId: userId })
+            .then((data) => setComments([...comments, data]));
+    };
+
+    const handleDeleteComment = (id) => {
+        api.comments.remove(id).then((id) => {
+            setComments(comments.filter((comment) => comment._id !== id));
+        });
+    };
+
     const handleClick = () => {
         history.push("/users");
     };
+
+    const sortedComments = _.orderBy(comments, ["created_at"], ["desc"]);
 
     if (user) {
         return (
@@ -37,24 +53,14 @@ const UserPage = ({ userId }) => {
                         <MeetingsCard meetings={user.completedMeetings} />
                     </div>
                     <div className="col-md-8">
-                        <Comments comments={comments} />
+                        <NewCommentForm onSubmit={handleSubmit} />
+                        <Comments
+                            comments={comments}
+                            onDelete={handleDeleteComment}
+                        />
                     </div>
                 </div>
             </div>
-            // <div>
-            //     <h1> {user.name}</h1>
-            //     <h2>Профессия: {user.profession.name}</h2>
-            //     <Qualities qualities={user.qualities} />
-            //     <p>completedMeetings: {user.completedMeetings}</p>
-            //     <h2>Rate: {user.rate}</h2>
-            //     <button onClick={handleClick} className="btn btn-primary">
-            //         {" "}
-            //         Все пользователи
-            //     </button>
-            //     <Link to={`/users/${userId}/edit`}>
-            //         <button className="btn btn-warning mx-2">Изменить</button>
-            //     </Link>
-            // </div>
         );
     } else {
         return <h1>Loading</h1>;
