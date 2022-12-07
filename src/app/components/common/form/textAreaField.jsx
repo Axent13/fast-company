@@ -1,39 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-const TextAreaField = ({ label, name, value, onChange, error }) => {
+const TextAreaField = ({ label, name, value, rows, onChange, error }) => {
     const handleChange = ({ target }) => {
         onChange({ name: target.name, value: target.value });
     };
-    const getInputClasses = () => {
+    const getClasses = () => {
         return "form-control" + (error ? " is-invalid" : "");
     };
 
     return (
         <div className="mb-4">
-            <label htmlFor={name}> {label}</label>
+            <label htmlFor={name}>{label}</label>
             <div className="input-group has-validation">
                 <textarea
                     id={name}
                     name={name}
                     value={value}
+                    rows={rows}
                     onChange={handleChange}
-                    className={getInputClasses()}
+                    className={getClasses()}
                 />
-
-                {error && <div className="invalid-feedback ">{error}</div>}
+                {error && <div className="invalid-feedback">{error}</div>}
             </div>
         </div>
     );
 };
-TextAreaField.defaultProps = {
-    type: "text"
-};
+
 TextAreaField.propTypes = {
     label: PropTypes.string,
-    type: PropTypes.string,
     name: PropTypes.string,
     value: PropTypes.string,
+    rows: PropTypes.string,
     onChange: PropTypes.func,
     error: PropTypes.string
 };

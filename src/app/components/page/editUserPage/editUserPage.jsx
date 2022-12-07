@@ -95,6 +95,10 @@ const EditUserPage = () => {
         if (data._id) setIsLoading(false);
     }, [data]);
 
+    const handleBackButtonClick = () => {
+        history.goBack();
+    };
+
     const validatorConfig = {
         email: {
             isRequired: {
@@ -127,7 +131,6 @@ const EditUserPage = () => {
     const isValid = Object.keys(errors).length === 0;
     return (
         <div className="container mt-5">
-            <BackHistoryButton />
             <div className="row">
                 <div className="col-md-6 offset-md-3 shadow p-4">
                     {!isLoading && Object.keys(professions).length > 0 ? (
