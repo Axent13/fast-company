@@ -1,28 +1,22 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import api from "../../../api";
-<<<<<<< HEAD
-=======
 import { Link, useHistory } from "react-router-dom";
->>>>>>> 0b635349964d689a561ecd7aff7eb21c431c4fbc
 import UserCard from "../../ui/userCard";
-import QualitiesCard from "../../ui/qualitiesCard";
+import QuailitiesCard from "../../ui/qualitiesCard";
 import MeetingsCard from "../../ui/meetingsCard";
-<<<<<<< HEAD
-import Comments from "../../ui/comments";
-=======
 import Comments from "../../ui/comments/";
 import NewCommentForm from "../../ui/newCommentForm";
 import _ from "lodash";
->>>>>>> 0b635349964d689a561ecd7aff7eb21c431c4fbc
 
 const UserPage = ({ userId }) => {
+    const history = useHistory();
     const [user, setUser] = useState();
+    const [comments, setComments] = useState();
+
     useEffect(() => {
         api.users.getById(userId).then((data) => setUser(data));
     }, []);
-<<<<<<< HEAD
-=======
 
     useEffect(() => {
         api.comments
@@ -49,26 +43,21 @@ const UserPage = ({ userId }) => {
 
     const sortedComments = _.orderBy(comments, ["created_at"], ["desc"]);
 
->>>>>>> 0b635349964d689a561ecd7aff7eb21c431c4fbc
     if (user) {
         return (
             <div className="container">
                 <div className="row gutters-sm">
                     <div className="col-md-4 mb-3">
                         <UserCard user={user} />
-                        <QualitiesCard data={user.qualities} />
-                        <MeetingsCard value={user.completedMeetings} />
+                        <QuailitiesCard qualities={user.qualities} />
+                        <MeetingsCard meetings={user.completedMeetings} />
                     </div>
                     <div className="col-md-8">
-<<<<<<< HEAD
-                        <Comments />
-=======
                         <NewCommentForm onSubmit={handleSubmit} />
                         <Comments
                             comments={comments}
                             onDelete={handleDeleteComment}
                         />
->>>>>>> 0b635349964d689a561ecd7aff7eb21c431c4fbc
                     </div>
                 </div>
             </div>

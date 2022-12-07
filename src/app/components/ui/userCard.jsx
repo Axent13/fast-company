@@ -1,11 +1,14 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
+
 const UserCard = ({ user }) => {
     const history = useHistory();
+
     const handleClick = () => {
-        history.push(history.location.pathname + "/edit");
+        history.push(`${location.pathname}/edit`);
     };
+
     return (
         <div className="card mb-3">
             <div className="card-body">
@@ -22,8 +25,10 @@ const UserCard = ({ user }) => {
                         )
                             .toString(36)
                             .substring(7)}.svg`}
-                        className="rounded-circle"
-                        width="150"
+                        className="rounded-circle shadow-1-strong me-3"
+                        alt="avatar"
+                        width="65"
+                        height="65"
                     />
                     <div className="mt-3">
                         <h4>{user.name}</h4>
@@ -47,8 +52,9 @@ const UserCard = ({ user }) => {
         </div>
     );
 };
+
 UserCard.propTypes = {
-    user: PropTypes.object
+    user: PropTypes.object.isRequired
 };
 
 export default UserCard;
