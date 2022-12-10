@@ -25,7 +25,7 @@ const UserTable = ({
         },
         qualities: {
             name: "Качества",
-            component: (user) => <Qualities ids={user.qualities} />
+            component: (user) => <Qualities qualities={user.qualities} />
         },
         professions: {
             name: "Профессия",
@@ -57,7 +57,6 @@ const UserTable = ({
             )
         }
     };
-
     return (
         <Table
             onSort={onSort}
