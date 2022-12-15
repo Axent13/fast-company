@@ -29,6 +29,7 @@ function App() {
                     </ProfessionProvider>
                 </QualitiesProvider>
             </AuthProvider>
+
             <ToastContainer />
         </div>
     );

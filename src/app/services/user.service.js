@@ -13,10 +13,6 @@ const userService = {
             payload
         );
         return data;
-    },
-    getById: async (localId) => {
-        const { data } = await httpService.get(userEndpoint + localId);
-        return data;
     }
 };
 export default userService;

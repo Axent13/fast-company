@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import { validator } from "../../utils/validator";
 import TextField from "../common/form/textField";
 import SelectField from "../common/form/selectField";
@@ -9,6 +8,7 @@ import CheckBoxField from "../common/form/checkBoxField";
 import { useQualities } from "../../hooks/useQualities";
 import { useProfessions } from "../../hooks/useProfession";
 import { useAuth } from "../../hooks/useAuth";
+import { useHistory } from "react-router-dom";
 
 const RegisterForm = () => {
     const history = useHistory();
@@ -93,14 +93,15 @@ const RegisterForm = () => {
             ...data,
             qualities: data.qualities.map((q) => q.value)
         };
+
         try {
             await signUp(newData);
             history.push("/");
         } catch (error) {
             setErrors(error);
         }
-        console.log(newData);
     };
+
     return (
         <form onSubmit={handleSubmit}>
             <TextField
