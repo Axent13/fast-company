@@ -23,7 +23,7 @@ const EditUserPage = () => {
     const [qualitiesForFields, setQualitiesForFields] = useState([]);
 
     const getQualitiesByIds = (qualIds) => {
-        if (qualities) {
+        if (Object.keys(qualities).length > 0 && qualIds) {
             const qualitiesArray = [];
             qualIds.forEach((qualId) => {
                 const neededObject = qualities.find((quality) => {

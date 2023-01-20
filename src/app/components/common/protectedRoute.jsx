@@ -19,6 +19,24 @@ function ProtectedRoute({ component: Component, children, ...rest }) {
                             }}
                         />
                     );
+                } else if (props.location.pathname.slice(-5) === "/edit") {
+                    const userIdRegexp =
+                        props.location.pathname.match(/\/users\/(.+).edit$/);
+                    const userId = userIdRegexp ? userIdRegexp[1] : null;
+                    if (currentUser._id === userId) {
+                        return Component ? <Component {...props} /> : children;
+                    } else {
+                        return (
+                            <Redirect
+                                to={{
+                                    pathname: `/users/${currentUser._id}/edit/`,
+                                    state: {
+                                        from: props.location
+                                    }
+                                }}
+                            />
+                        );
+                    }
                 }
                 return Component ? <Component {...props} /> : children;
             }}
