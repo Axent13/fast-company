@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { validator } from "../../../utils/validator";
 import TextField from "../../common/form/textField";
 import SelectField from "../../common/form/selectField";
@@ -11,6 +12,7 @@ import { useQualities } from "../../../hooks/useQualities";
 
 const EditUserPage = () => {
     const { currentUser, updateUser } = useAuth();
+    const history = useHistory();
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState({});
     const [data, setData] = useState({ ...currentUser });
@@ -70,9 +72,10 @@ const EditUserPage = () => {
             ...data,
             qualities: qualitiesToUpdate
         };
+        console.log("dataToUpdate", dataToUpdate);
 
         updateUser(dataToUpdate);
-        console.log("dataToUpdate:", dataToUpdate);
+        history.push(`/users/${dataToUpdate._id}`);
     };
 
     useEffect(() => {
