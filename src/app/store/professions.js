@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import proessionService from "../services/profession.service";
+import professionService from "../services/profession.service";
+import isOutdated from "../utils/isOutdated";
 
 const professionsSlice = createSlice({
     name: "professions",
@@ -29,19 +30,12 @@ const { reducer: professionsReducer, actions } = professionsSlice;
 const { professionsRequested, professionsReceived, professionsRequestFailed } =
     actions;
 
-function isOutdated(date) {
-    if (Date.now() - date > 10 * 60 * 1000) {
-        return true;
-    }
-    return false;
-}
-
-export const loadProfessions = () => async (dispatch, getState) => {
+export const loadProfessionsList = () => async (dispatch, getState) => {
     const { lastFetch } = getState().professions;
     if (isOutdated(lastFetch)) {
         dispatch(professionsRequested());
         try {
-            const { content } = await proessionService.get();
+            const { content } = await professionService.get();
             dispatch(professionsReceived(content));
         } catch (error) {
             dispatch(professionsRequestFailed(error.message));
@@ -52,13 +46,10 @@ export const loadProfessions = () => async (dispatch, getState) => {
 export const getProfessions = () => (state) => state.professions.entities;
 export const getProfessionsLoadingStatus = () => (state) =>
     state.professions.isLoading;
-export const getProfessionById = (professionId) => (state) => {
+export const getProfessionById = (id) => (state) => {
     if (state.professions.entities) {
-        return state.professions.entities.find(
-            (prof) => prof._id === professionId
-        );
+        return state.professions.entities.find((p) => p._id === id);
     }
-    return [];
 };
 
 export default professionsReducer;

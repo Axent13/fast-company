@@ -5,14 +5,13 @@ import SelectField from "../common/form/selectField";
 import RadioField from "../common/form/radioField";
 import MultiSelectField from "../common/form/multiSelectField";
 import CheckBoxField from "../common/form/checkBoxField";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getQualities } from "../../store/qualities";
 import { getProfessions } from "../../store/professions";
 import { signUp } from "../../store/users";
 
 const RegisterForm = () => {
     const dispatch = useDispatch();
-
     const [data, setData] = useState({
         email: "",
         password: "",
@@ -22,7 +21,6 @@ const RegisterForm = () => {
         qualities: [],
         licence: false
     });
-
     const qualities = useSelector(getQualities());
     const qualitiesList = qualities.map((q) => ({
         label: q.name,
