@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { validator } from "../../utils/validator";
+import { validator } from "../../utils/ validator";
 import TextField from "../common/form/textField";
 import CheckBoxField from "../common/form/checkBoxField";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { login } from "../../store/users";
+import { useDispatch, useSelector } from "react-redux";
+import { getAuthErrors, login } from "../../store/users";
 
 const LoginForm = () => {
     const [data, setData] = useState({
@@ -12,19 +12,19 @@ const LoginForm = () => {
         password: "",
         stayOn: false
     });
+    const loginError = useSelector(getAuthErrors());
     const history = useHistory();
-    const dispatch = useDispatch();
+    const dispath = useDispatch();
     const [errors, setErrors] = useState({});
-    const [enterError, setEnterError] = useState(null);
+
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
         }));
-        setEnterError(null);
     };
 
-    const validatorConfig = {
+    const validatorConfog = {
         email: {
             isRequired: {
                 message: "Электронная почта обязательна для заполнения"
@@ -32,7 +32,7 @@ const LoginForm = () => {
         },
         password: {
             isRequired: {
-                message: "Пароль обязателен для заполнения"
+                message: "Пароль обязателкн для заполнения"
             }
         }
     };
@@ -40,7 +40,7 @@ const LoginForm = () => {
         validate();
     }, [data]);
     const validate = () => {
-        const errors = validator(data, validatorConfig);
+        const errors = validator(data, validatorConfog);
         setErrors(errors);
         return Object.keys(errors).length === 0;
     };
@@ -54,7 +54,7 @@ const LoginForm = () => {
             ? history.location.state.from.pathname
             : "/";
 
-        dispatch(login({ payload: data, redirect }));
+        dispath(login({ payload: data, redirect }));
     };
     return (
         <form onSubmit={handleSubmit}>
@@ -80,11 +80,12 @@ const LoginForm = () => {
             >
                 Оставаться в системе
             </CheckBoxField>
-            {enterError && <p className="text-danger">{enterError}</p>}
+            {loginError && <p className="text-danger">{loginError}</p>}
+
             <button
-                className="btn btn-primary w-100 mx-auto"
                 type="submit"
-                disabled={!isValid || enterError}
+                disabled={!isValid}
+                className="btn btn-primary w-100 mx-auto"
             >
                 Submit
             </button>
