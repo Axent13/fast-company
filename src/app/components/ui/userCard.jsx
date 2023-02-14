@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+<<<<<<< HEAD
 import { useHistory } from "react-router";
 import { useSelector } from "react-redux";
 import { getCurrentUserData } from "../../store/users";
@@ -7,13 +8,23 @@ const UserCard = ({ user }) => {
     const history = useHistory();
 
     const currentUser = useSelector(getCurrentUserData());
+=======
+import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getCurrentUserId } from "../../store/users";
+
+const UserCard = ({ user }) => {
+    const history = useHistory();
+    const currentUserId = useSelector(getCurrentUserId());
+
+>>>>>>> 87a6102e1ff76dc4e54732422b48e929fa46d48f
     const handleClick = () => {
         history.push(history.location.pathname + "/edit");
     };
     return (
         <div className="card mb-3">
             <div className="card-body">
-                {currentUser._id === user._id && (
+                {currentUserId === user._id && (
                     <button
                         className="position-absolute top-0 end-0 btn btn-light btn-sm"
                         onClick={handleClick}
