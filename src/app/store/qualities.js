@@ -1,9 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-<<<<<<< HEAD
 import qualityService from "../services/qaulity.service";
-=======
-import qualityService from "../services/quality.service";
->>>>>>> 87a6102e1ff76dc4e54732422b48e929fa46d48f
 import isOutdated from "../utils/isOutdated";
 
 const qualitiesSlice = createSlice({
@@ -31,12 +27,7 @@ const qualitiesSlice = createSlice({
 });
 
 const { reducer: qualitiesReducer, actions } = qualitiesSlice;
-<<<<<<< HEAD
 const { qualitiesRequested, qualitiesReceved, qualitiesRequestFiled } = actions;
-=======
-const { qualitiesRequested, qualitiesReceived, qualitiesRequestFailed } =
-    actions;
->>>>>>> 87a6102e1ff76dc4e54732422b48e929fa46d48f
 
 export const loadQualitiesList = () => async (dispatch, getState) => {
     const { lastFetch } = getState().qualities;

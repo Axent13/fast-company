@@ -1,13 +1,9 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import configFile from "../config.json";
-<<<<<<< HEAD
 import authService from "./auth.service";
 
-=======
->>>>>>> 87a6102e1ff76dc4e54732422b48e929fa46d48f
 import localStorageService from "./localStorage.service";
-import authService from "./auth.service";
 
 const http = axios.create({
     baseURL: configFile.apiEndpoint

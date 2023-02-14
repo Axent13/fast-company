@@ -16,10 +16,7 @@ const LoginForm = () => {
     const history = useHistory();
     const dispath = useDispatch();
     const [errors, setErrors] = useState({});
-<<<<<<< HEAD
 
-=======
->>>>>>> 87a6102e1ff76dc4e54732422b48e929fa46d48f
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
@@ -84,17 +81,11 @@ const LoginForm = () => {
                 Оставаться в системе
             </CheckBoxField>
             {loginError && <p className="text-danger">{loginError}</p>}
-<<<<<<< HEAD
 
-=======
->>>>>>> 87a6102e1ff76dc4e54732422b48e929fa46d48f
             <button
                 type="submit"
                 disabled={!isValid}
-<<<<<<< HEAD
                 className="btn btn-primary w-100 mx-auto"
-=======
->>>>>>> 87a6102e1ff76dc4e54732422b48e929fa46d48f
             >
                 Submit
             </button>

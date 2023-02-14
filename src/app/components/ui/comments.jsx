@@ -1,23 +1,14 @@
 import { orderBy } from "lodash";
 import React, { useEffect } from "react";
 import CommentsList, { AddCommentForm } from "../common/comments";
-<<<<<<< HEAD
 import {
     createComment,
-=======
-import { useDispatch, useSelector } from "react-redux";
-import {
-    addComment,
->>>>>>> 87a6102e1ff76dc4e54732422b48e929fa46d48f
     getComments,
     getCommentsLoadingStatus,
     loadCommentsList,
     removeComment
 } from "../../store/comments";
-<<<<<<< HEAD
 import { useSelector, useDispatch } from "react-redux";
-=======
->>>>>>> 87a6102e1ff76dc4e54732422b48e929fa46d48f
 import { useParams } from "react-router-dom";
 
 const Comments = () => {
@@ -27,18 +18,10 @@ const Comments = () => {
         dispatch(loadCommentsList(userId));
     }, [userId]);
     const isLoading = useSelector(getCommentsLoadingStatus());
-<<<<<<< HEAD
-=======
-    const comments = useSelector(getComments());
->>>>>>> 87a6102e1ff76dc4e54732422b48e929fa46d48f
 
     const comments = useSelector(getComments());
     const handleSubmit = (data) => {
-<<<<<<< HEAD
         dispatch(createComment({ data, pageId: userId }));
-=======
-        dispatch(addComment({ content: data.content, pageId: userId }));
->>>>>>> 87a6102e1ff76dc4e54732422b48e929fa46d48f
     };
     const handleRemoveComment = (id) => {
         dispatch(removeComment(id));
@@ -62,11 +45,7 @@ const Comments = () => {
                                 onRemove={handleRemoveComment}
                             />
                         ) : (
-<<<<<<< HEAD
                             "loading..."
-=======
-                            "Loading..."
->>>>>>> 87a6102e1ff76dc4e54732422b48e929fa46d48f
                         )}
                     </div>
                 </div>

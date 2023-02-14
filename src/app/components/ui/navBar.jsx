@@ -1,15 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-<<<<<<< HEAD
 
 import { getIsLoggedIn } from "../../store/users";
-=======
->>>>>>> 87a6102e1ff76dc4e54732422b48e929fa46d48f
 import NavProfile from "./navProfile";
-import { useSelector } from "react-redux";
-import { getIsLoggedIn } from "../../store/users";
-
 const NavBar = () => {
     const isLoggedIn = useSelector(getIsLoggedIn());
     return (

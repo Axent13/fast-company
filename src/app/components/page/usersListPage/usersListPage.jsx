@@ -6,21 +6,12 @@ import GroupList from "../../common/groupList";
 import SearchStatus from "../../ui/searchStatus";
 import UserTable from "../../ui/usersTable";
 import _ from "lodash";
-<<<<<<< HEAD
-=======
-import { useSelector } from "react-redux";
->>>>>>> 87a6102e1ff76dc4e54732422b48e929fa46d48f
 import {
     getProfessions,
     getProfessionsLoadingStatus
 } from "../../../store/professions";
-<<<<<<< HEAD
 import { useSelector } from "react-redux";
 import { getCurrentUserId, getUsersList } from "../../../store/users";
-=======
-import { getCurrentUserId, getUsersList } from "../../../store/users";
-
->>>>>>> 87a6102e1ff76dc4e54732422b48e929fa46d48f
 const UsersListPage = () => {
     const users = useSelector(getUsersList());
     const currentUserId = useSelector(getCurrentUserId());
@@ -68,7 +59,6 @@ const UsersListPage = () => {
         setSortBy(item);
     };
 
-<<<<<<< HEAD
     function filterUsers(data) {
         const filteredUsers = searchQuery
             ? data.filter(
@@ -89,37 +79,6 @@ const UsersListPage = () => {
     const clearFilter = () => {
         setSelectedProf();
     };
-=======
-    if (users) {
-        function filterUsers(data) {
-            const filteredUsers = searchQuery
-                ? data.filter(
-                      (user) =>
-                          user.name
-                              .toLowerCase()
-                              .indexOf(searchQuery.toLowerCase()) !== -1
-                  )
-                : selectedProf
-                ? data.filter(
-                      (user) =>
-                          JSON.stringify(user.profession) ===
-                          JSON.stringify(selectedProf)
-                  )
-                : data;
-            return filteredUsers.filter((u) => u._id !== currentUserId);
-        }
-        const filteredUsers = filterUsers(users);
-        const count = filteredUsers.length;
-        const sortedUsers = _.orderBy(
-            filteredUsers,
-            [sortBy.path],
-            [sortBy.order]
-        );
-        const usersCrop = paginate(sortedUsers, currentPage, pageSize);
-        const clearFilter = () => {
-            setSelectedProf();
-        };
->>>>>>> 87a6102e1ff76dc4e54732422b48e929fa46d48f
 
     return (
         <div className="d-flex">

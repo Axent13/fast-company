@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-<<<<<<< HEAD
 import { validator } from "../../../utils/ validator";
-=======
-import { validator } from "../../../utils/validator";
->>>>>>> 87a6102e1ff76dc4e54732422b48e929fa46d48f
 import TextField from "../../common/form/textField";
 import SelectField from "../../common/form/selectField";
 import RadioField from "../../common/form/radio.Field";

@@ -1,14 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { displayDate } from "../../../utils/displayDate";
-<<<<<<< HEAD
 import { getCurrentUserId, getUserById } from "../../../store/users";
 import { useSelector } from "react-redux";
-=======
-import { useSelector } from "react-redux";
-import { getCurrentUserId, getUserById } from "../../../store/users";
-
->>>>>>> 87a6102e1ff76dc4e54732422b48e929fa46d48f
 const Comment = ({
     content,
     created_at: created,
